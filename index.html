@@ -1,231 +1,40 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Puskesmas Bogorejo - Operator Antrian</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-}
-
-body{
-    background:linear-gradient(135deg,#0f766e,#115e59,#134e4a);
-    min-height:100vh;
-    color:white;
-}
-
-.header{
-    text-align:center;
-    padding:30px;
-}
-
-.header h1{
-    font-size:45px;
-    font-weight:800;
-}
-
-.header h2{
-    font-size:20px;
-    font-weight:300;
-}
-
-.container{
-    display:flex;
-    gap:20px;
-    padding:20px;
-}
-
-.kiri{
-    width:35%;
-    background:rgba(255,255,255,0.12);
-    backdrop-filter:blur(20px);
-    border-radius:25px;
-    padding:25px;
-}
-
-.kanan{
-    width:65%;
-}
-
-input,select,button{
-    width:100%;
-    padding:15px;
-    margin-top:15px;
-    border:none;
-    border-radius:15px;
-    font-size:18px;
-}
-
-button{
-    background:#22c55e;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-button:hover{
-    background:#16a34a;
-}
-
-.card{
-    background:white;
-    color:#0f766e;
-    border-radius:30px;
-    padding:40px;
-    text-align:center;
-}
-
-.status{
-    font-size:28px;
-    font-weight:bold;
-}
-
-.sapaan{
-    font-size:40px;
-    margin-top:20px;
-}
-
-.nama{
-    font-size:80px;
-    font-weight:800;
-    margin-top:20px;
-}
-
-.ruangan{
-    margin-top:30px;
-    background:#0f766e;
-    color:white;
-    padding:20px;
-    border-radius:20px;
-    font-size:35px;
-    font-weight:bold;
-}
-
-.footer{
-    text-align:center;
-    margin-top:20px;
-    color:#d7f5eb;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="header">
-<h2>SISTEM PANGGILAN ANTRIAN RUANGAN</h2>
-<h1>PUSKESMAS BOGOREJO</h1>
-</div>
-
-<div class="container">
-
-<div class="kiri">
-
-<select id="sapaan">
-<option>Bapak</option>
-<option>Ibu</option>
-<option>Saudara</option>
-<option>Saudari</option>
-</select>
-
-<input type="text" id="nama" placeholder="Masukkan Nama Pasien">
-
-<select id="tujuan">
-<option>Klaster 3 Dewasa dan Lansia</option>
-<option>Lintas Klaster (Gawat Darurat)</option>
-<option>Konseling</option>
-<option>Laboratorium</option>
-<option>Gudang Farmasi</option>
-<option>Apotek</option>
-<option>Lintas Klaster (Gigi dan Mulut)</option>
-<option>Klaster II Ibu dan Anak (KIA)</option>
-<option>Klaster II Anak dan Remaja (MTBS)</option>
-<option>Klaster IV (Penyakit Menular)</option>
-<option>Gizi</option>
-<option>Imunisasi</option>
-<option>PONED</option>
-</select>
-
-<button onclick="panggil()">
-🔊 PANGGIL PASIEN
-</button>
-
-</div>
-
-<div class="kanan">
-
-<div class="card">
-
-<div class="status">
-SEDANG DIPANGGIL
-</div>
-
-<div class="sapaan" id="layarSapaan">
--
-</div>
-
-<div class="nama" id="layarNama">
-MENUNGGU
-</div>
-
-<div class="ruangan" id="layarRuangan">
-PUSKESMAS BOGOREJO
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="footer">
-© 2026 Puskesmas Bogorejo
-</div>
-
-<script>
-
 function panggil(){
 
-    const sapaan=document.getElementById("sapaan").value;
-    const nama=document.getElementById("nama").value;
-    const tujuan=document.getElementById("tujuan").value;
+    // Ambil data dari form
+    const sapaan = document.getElementById("sapaan").value;
+    const nama = document.getElementById("nama").value;
+    const tujuan = document.getElementById("tujuan").value;
 
-    // kirim ke layar luar
-    localStorage.setItem("sapaan",sapaan);
-    localStorage.setItem("nama",nama);
-    localStorage.setItem("tujuan",tujuan);
+    // Simpan ke localStorage agar dibaca display.html
+    localStorage.setItem("sapaan", sapaan);
+    localStorage.setItem("nama", nama);
+    localStorage.setItem("tujuan", tujuan);
 
-    // update layar operator
-    document.getElementById("layarSapaan").innerHTML=sapaan;
-    document.getElementById("layarNama").innerHTML=nama.toUpperCase();
-    document.getElementById("layarRuangan").innerHTML=tujuan;
+    // Update tampilan operator
+    document.getElementById("layarSapaan").innerHTML = sapaan;
+    document.getElementById("layarNama").innerHTML = nama.toUpperCase();
+    document.getElementById("layarRuangan").innerHTML = tujuan;
 
-    // suara
-    const suara=new SpeechSynthesisUtterance(
-        sapaan+" "+nama+
-        ", dipersilakan menuju "+
-        tujuan+
+    // Buat suara panggilan
+    const suara = new SpeechSynthesisUtterance(
+        sapaan + " " + nama +
+        ", dipersilakan menuju " +
+        tujuan +
         ". Terima kasih."
     );
 
-    suara.lang="id-ID";
-    suara.rate=0.9;
-    suara.pitch=1;
-    suara.volume=1;
+    suara.lang = "id-ID";
+    suara.rate = 0.9;
+    suara.pitch = 1;
+    suara.volume = 1;
 
+    // Putar suara
+    speechSynthesis.cancel();
     speechSynthesis.speak(suara);
+
+    // Debug untuk memastikan data tersimpan
+    console.log("Sapaan :", localStorage.getItem("sapaan"));
+    console.log("Nama :", localStorage.getItem("nama"));
+    console.log("Tujuan :", localStorage.getItem("tujuan"));
+
 }
-
-</script>
-
-</body>
-</html>
