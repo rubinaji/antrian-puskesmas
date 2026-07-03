@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Display Antrian Puskesmas Bogorejo</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#0f766e,#115e59,#134e4a);
+    color:white;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    width:90%;
+    max-width:1400px;
+    text-align:center;
+}
+
+.header{
+    margin-bottom:40px;
+}
+
+.header h1{
+    font-size:70px;
+    font-weight:800;
+}
+
+.header p{
+    font-size:24px;
+    opacity:0.9;
+}
+
+.jam{
+    margin-top:20px;
+    font-size:32px;
+}
+
+.card{
+    background:white;
+    color:#0f766e;
+    border-radius:40px;
+    padding:60px;
+    box-shadow:0 25px 60px rgba(0,0,0,0.3);
+}
+
+.status{
+    font-size:40px;
+    font-weight:700;
+}
+
+.sapaan{
+    margin-top:30px;
+    font-size:50px;
+}
+
+.nama{
+    margin-top:20px;
+    font-size:120px;
+    font-weight:800;
+}
+
+.menuju{
+    margin-top:30px;
+    font-size:36px;
+    color:#f59e0b;
+}
+
+.ruangan{
+    margin-top:25px;
+    background:#0f766e;
+    color:white;
+    padding:25px;
+    border-radius:25px;
+    font-size:50px;
+    font-weight:700;
+}
+
+.footer{
+    margin-top:40px;
+    font-size:24px;
+}
+
+.running{
+    margin-top:30px;
+    background:rgba(255,255,255,0.15);
+    padding:15px;
+    border-radius:20px;
+    font-size:22px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>🏥 PUSKESMAS BOGOREJO</h1>
+<p>Sistem Panggilan Antrian Ruangan</p>
+
+<div class="jam" id="jam"></div>
+</div>
+
+<div class="card">
+
+<div class="status">
+SEDANG DIPANGGIL
+</div>
+
+<div class="sapaan" id="sapaan">
+-
+</div>
+
+<div class="nama" id="nama">
+MENUNGGU
+</div>
+
+<div class="menuju">
+DIPERSILAKAN MENUJU
+</div>
+
+<div class="ruangan" id="ruangan">
+PUSKESMAS BOGOREJO
+</div>
+
+</div>
+
+<div class="running">
+<marquee>
+Selamat datang di Puskesmas Bogorejo • Mohon menunggu hingga nama Anda dipanggil • Terima kasih atas kepercayaan Anda kepada Puskesmas Bogorejo
+</marquee>
+</div>
+
+<div class="footer">
+Melayani Dengan Hati, Sehat Untuk Negeri
+</div>
+
+</div>
+
+<script>
+
+function updateJam(){
+    const now = new Date();
+
+    document.getElementById("jam").innerHTML =
+    now.toLocaleString('id-ID');
+}
+
+setInterval(updateJam,1000);
+updateJam();
+
+setInterval(()=>{
+
+    document.getElementById("sapaan").innerHTML =
+        localStorage.getItem("sapaan") || "-";
+
+    document.getElementById("nama").innerHTML =
+        localStorage.getItem("nama") || "MENUNGGU";
+
+    document.getElementById("ruangan").innerHTML =
+        localStorage.getItem("tujuan") || "PUSKESMAS BOGOREJO";
+
+},1000);
+
+</script>
+
+</body>
+</html>
