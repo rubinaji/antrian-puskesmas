@@ -1,3 +1,5 @@
+<script>
+
 function panggil(){
 
     // Ambil data dari form
@@ -5,7 +7,7 @@ function panggil(){
     const nama = document.getElementById("nama").value;
     const tujuan = document.getElementById("tujuan").value;
 
-    // Simpan ke localStorage agar dibaca display.html
+    // Simpan ke localStorage agar dibaca display
     localStorage.setItem("sapaan", sapaan);
     localStorage.setItem("nama", nama);
     localStorage.setItem("tujuan", tujuan);
@@ -15,7 +17,7 @@ function panggil(){
     document.getElementById("layarNama").innerHTML = nama.toUpperCase();
     document.getElementById("layarRuangan").innerHTML = tujuan;
 
-    // Buat suara panggilan
+    // Suara panggilan
     const suara = new SpeechSynthesisUtterance(
         sapaan + " " + nama +
         ", dipersilakan menuju " +
@@ -28,13 +30,13 @@ function panggil(){
     suara.pitch = 1;
     suara.volume = 1;
 
-    // Putar suara
     speechSynthesis.cancel();
     speechSynthesis.speak(suara);
 
-    // Debug untuk memastikan data tersimpan
-    console.log("Sapaan :", localStorage.getItem("sapaan"));
-    console.log("Nama :", localStorage.getItem("nama"));
-    console.log("Tujuan :", localStorage.getItem("tujuan"));
+    console.log("Sapaan:", localStorage.getItem("sapaan"));
+    console.log("Nama:", localStorage.getItem("nama"));
+    console.log("Tujuan:", localStorage.getItem("tujuan"));
 
 }
+
+</script>
