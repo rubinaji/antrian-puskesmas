@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Puskesmas Bogorejo - Operator Antrian</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#0f766e,#115e59,#134e4a);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    width:900px;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(20px);
+    border-radius:30px;
+    padding:40px;
+    color:white;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:10px;
+    font-size:42px;
+}
+
+h3{
+    text-align:center;
+    margin-bottom:30px;
+    font-weight:300;
+}
+
+input,select,button{
+    width:100%;
+    padding:16px;
+    margin-top:15px;
+    border:none;
+    border-radius:15px;
+    font-size:18px;
+}
+
+button{
+    background:#22c55e;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#16a34a;
+}
+
+.preview{
+    margin-top:30px;
+    background:white;
+    color:#0f766e;
+    border-radius:20px;
+    padding:30px;
+    text-align:center;
+}
+
+.preview h2{
+    font-size:24px;
+}
+
+.preview .nama{
+    font-size:60px;
+    font-weight:800;
+    margin-top:20px;
+}
+
+.preview .ruangan{
+    font-size:30px;
+    margin-top:15px;
+    color:#f59e0b;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🏥 PUSKESMAS BOGOREJO</h1>
+<h3>Sistem Panggilan Antrian Ruangan</h3>
+
+<select id="sapaan">
+<option>Bapak</option>
+<option>Ibu</option>
+<option>Saudara</option>
+<option>Saudari</option>
+</select>
+
+<input type="text" id="nama" placeholder="Masukkan Nama Pasien">
+
+<select id="tujuan">
+<option>Klaster 3 Dewasa dan Lansia</option>
+<option>Lintas Klaster (Gawat Darurat)</option>
+<option>Konseling</option>
+<option>Laboratorium</option>
+<option>Gudang Farmasi</option>
+<option>Apotek</option>
+<option>Lintas Klaster (Gigi dan Mulut)</option>
+<option>Klaster II Ibu dan Anak (KIA)</option>
+<option>Klaster II Anak dan Remaja (MTBS)</option>
+<option>Klaster IV (Penyakit Menular)</option>
+<option>Gizi</option>
+<option>Imunisasi</option>
+<option>PONED</option>
+</select>
+
+<button onclick="panggil()">
+🔊 PANGGIL PASIEN
+</button>
+
+<div class="preview">
+
+<h2>SEDANG DIPANGGIL</h2>
+
+<div class="nama" id="previewNama">
+MENUNGGU
+</div>
+
+<div class="ruangan" id="previewRuangan">
+PUSKESMAS BOGOREJO
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function panggil(){
+
+    const sapaan = document.getElementById("sapaan").value;
+    const nama = document.getElementById("nama").value;
+    const tujuan = document.getElementById("tujuan").value;
+
+    document.getElementById("previewNama").innerHTML =
+        sapaan + " " + nama;
+
+    document.getElementById("previewRuangan").innerHTML =
+        tujuan;
+
+    const suara = new SpeechSynthesisUtterance(
+        sapaan + " " + nama +
+        ", dipersilakan menuju " +
+        tujuan +
+        ". Terima kasih."
+    );
+
+    suara.lang = "id-ID";
+    suara.rate = 0.9;
+
+    speechSynthesis.speak(suara);
+}
+
+</script>
+
+</body>
+</html>
