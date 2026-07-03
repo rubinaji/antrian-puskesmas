@@ -1,23 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+...
+</head>
+
+<body>
+
+... seluruh tampilan operator ...
+
+<button onclick="panggil()">PANGGIL PASIEN</button>
+
 <script>
 
 function panggil(){
 
-    // Ambil data dari form
     const sapaan = document.getElementById("sapaan").value;
     const nama = document.getElementById("nama").value;
     const tujuan = document.getElementById("tujuan").value;
 
-    // Simpan ke localStorage agar dibaca display
     localStorage.setItem("sapaan", sapaan);
     localStorage.setItem("nama", nama);
     localStorage.setItem("tujuan", tujuan);
 
-    // Update tampilan operator
     document.getElementById("layarSapaan").innerHTML = sapaan;
     document.getElementById("layarNama").innerHTML = nama.toUpperCase();
     document.getElementById("layarRuangan").innerHTML = tujuan;
 
-    // Suara panggilan
     const suara = new SpeechSynthesisUtterance(
         sapaan + " " + nama +
         ", dipersilakan menuju " +
@@ -26,17 +35,12 @@ function panggil(){
     );
 
     suara.lang = "id-ID";
-    suara.rate = 0.9;
-    suara.pitch = 1;
-    suara.volume = 1;
 
     speechSynthesis.cancel();
     speechSynthesis.speak(suara);
-
-    console.log("Sapaan:", localStorage.getItem("sapaan"));
-    console.log("Nama:", localStorage.getItem("nama"));
-    console.log("Tujuan:", localStorage.getItem("tujuan"));
-
 }
 
 </script>
+
+</body>
+</html>
