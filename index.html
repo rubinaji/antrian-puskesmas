@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Puskesmas Bogorejo - Operator Antrian</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -20,35 +19,45 @@
 body{
     background:linear-gradient(135deg,#0f766e,#115e59,#134e4a);
     min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.container{
-    width:900px;
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(20px);
-    border-radius:30px;
-    padding:40px;
     color:white;
 }
 
-h1{
+.header{
     text-align:center;
-    margin-bottom:10px;
-    font-size:42px;
+    padding:30px;
 }
 
-h3{
-    text-align:center;
-    margin-bottom:30px;
+.header h1{
+    font-size:45px;
+    font-weight:800;
+}
+
+.header h2{
+    font-size:20px;
     font-weight:300;
+}
+
+.container{
+    display:flex;
+    gap:20px;
+    padding:20px;
+}
+
+.kiri{
+    width:35%;
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(20px);
+    border-radius:25px;
+    padding:25px;
+}
+
+.kanan{
+    width:65%;
 }
 
 input,select,button{
     width:100%;
-    padding:16px;
+    padding:15px;
     margin-top:15px;
     border:none;
     border-radius:15px;
@@ -66,29 +75,44 @@ button:hover{
     background:#16a34a;
 }
 
-.preview{
-    margin-top:30px;
+.card{
     background:white;
     color:#0f766e;
-    border-radius:20px;
-    padding:30px;
+    border-radius:30px;
+    padding:40px;
     text-align:center;
 }
 
-.preview h2{
-    font-size:24px;
+.status{
+    font-size:28px;
+    font-weight:bold;
 }
 
-.preview .nama{
-    font-size:60px;
+.sapaan{
+    font-size:40px;
+    margin-top:20px;
+}
+
+.nama{
+    font-size:80px;
     font-weight:800;
     margin-top:20px;
 }
 
-.preview .ruangan{
-    font-size:30px;
-    margin-top:15px;
-    color:#f59e0b;
+.ruangan{
+    margin-top:30px;
+    background:#0f766e;
+    color:white;
+    padding:20px;
+    border-radius:20px;
+    font-size:35px;
+    font-weight:bold;
+}
+
+.footer{
+    text-align:center;
+    margin-top:20px;
+    color:#d7f5eb;
 }
 
 </style>
@@ -97,10 +121,14 @@ button:hover{
 
 <body>
 
+<div class="header">
+<h2>SISTEM PANGGILAN ANTRIAN RUANGAN</h2>
+<h1>PUSKESMAS BOGOREJO</h1>
+</div>
+
 <div class="container">
 
-<h1>🏥 PUSKESMAS BOGOREJO</h1>
-<h3>Sistem Panggilan Antrian Ruangan</h3>
+<div class="kiri">
 
 <select id="sapaan">
 <option>Bapak</option>
@@ -131,15 +159,25 @@ button:hover{
 🔊 PANGGIL PASIEN
 </button>
 
-<div class="preview">
+</div>
 
-<h2>SEDANG DIPANGGIL</h2>
+<div class="kanan">
 
-<div class="nama" id="previewNama">
+<div class="card">
+
+<div class="status">
+SEDANG DIPANGGIL
+</div>
+
+<div class="sapaan" id="layarSapaan">
+-
+</div>
+
+<div class="nama" id="layarNama">
 MENUNGGU
 </div>
 
-<div class="ruangan" id="previewRuangan">
+<div class="ruangan" id="layarRuangan">
 PUSKESMAS BOGOREJO
 </div>
 
@@ -147,29 +185,42 @@ PUSKESMAS BOGOREJO
 
 </div>
 
+</div>
+
+<div class="footer">
+© 2026 Puskesmas Bogorejo
+</div>
+
 <script>
 
 function panggil(){
 
-    const sapaan = document.getElementById("sapaan").value;
-    const nama = document.getElementById("nama").value;
-    const tujuan = document.getElementById("tujuan").value;
+    const sapaan=document.getElementById("sapaan").value;
+    const nama=document.getElementById("nama").value;
+    const tujuan=document.getElementById("tujuan").value;
 
-    document.getElementById("previewNama").innerHTML =
-        sapaan + " " + nama;
+    // kirim ke layar luar
+    localStorage.setItem("sapaan",sapaan);
+    localStorage.setItem("nama",nama);
+    localStorage.setItem("tujuan",tujuan);
 
-    document.getElementById("previewRuangan").innerHTML =
-        tujuan;
+    // update layar operator
+    document.getElementById("layarSapaan").innerHTML=sapaan;
+    document.getElementById("layarNama").innerHTML=nama.toUpperCase();
+    document.getElementById("layarRuangan").innerHTML=tujuan;
 
-    const suara = new SpeechSynthesisUtterance(
-        sapaan + " " + nama +
-        ", dipersilakan menuju " +
-        tujuan +
+    // suara
+    const suara=new SpeechSynthesisUtterance(
+        sapaan+" "+nama+
+        ", dipersilakan menuju "+
+        tujuan+
         ". Terima kasih."
     );
 
-    suara.lang = "id-ID";
-    suara.rate = 0.9;
+    suara.lang="id-ID";
+    suara.rate=0.9;
+    suara.pitch=1;
+    suara.volume=1;
 
     speechSynthesis.speak(suara);
 }
